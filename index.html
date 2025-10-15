@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Петиция — Справедливость для Ерсултана</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#ff416c; --bg2:#ff4b2b; --card:#ffffff; --muted:#666; --dark:#0b1020;
+  --accent:#ff4b2b; --accent-2:#ff6b45;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#fff,#fff7f7);color:var(--dark);-webkit-font-smoothing:antialiased;}
+.canvas-wrap{position:fixed;inset:0;z-index:0;overflow:hidden;background:url('images/activist_bg.png') center/cover no-repeat fixed}
+.container{position:relative;z-index:2;max-width:980px;margin:36px auto;padding:22px}
+.header{display:flex;align-items:center;gap:18px}
+.logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:22px;box-shadow:0 14px 40px rgba(255,75,43,0.18)}
+.title{flex:1}
+h1{margin:0;font-size:1.45rem;line-height:1.1;color:var(--dark);font-weight:800}
+.lead{color:var(--muted);margin-top:6px}
+.hero{display:grid;grid-template-columns:1fr 380px;gap:20px;margin-top:20px;align-items:start}
+.card{background:var(--card);padding:18px;border-radius:14px;box-shadow:0 20px 50px rgba(11,16,32,0.08);backdrop-filter: blur(6px)}
+.banner-svg{width:100%;height:140px;border-radius:12px;overflow:hidden;margin-bottom:12px;}
+.section-title{font-weight:800;margin:6px 0;font-size:1.05rem;color:var(--dark)}
+.small{font-size:0.95rem;color:var(--muted)}
+.form-row{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+input[type="text"], textarea{padding:12px;border-radius:10px;border:1px solid #eee;font-size:15px}
+.phone{font-family:monospace}
+.sign-btn{background:linear-gradient(90deg,var(--bg1),var(--bg2));border:none;padding:12px 14px;border-radius:12px;color:#fff;font-weight:800;cursor:pointer;font-size:16px;display:inline-flex;align-items:center;gap:10px;justify-content:center}
+.count-badge{background:rgba(255,255,255,0.12);padding:6px 10px;border-radius:999px;font-weight:700}
+.meta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px}
+.share{display:flex;gap:8px;margin-top:12px}
+.share button{background:transparent;border:1px solid rgba(11,16,32,0.06);padding:8px 10px;border-radius:10px;cursor:pointer}
+.footer{margin-top:18px;color:var(--muted);font-size:0.9rem;text-align:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+@keyframes pulse {
+  0%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-6px) scale(1.02)}
+  100%{transform:translateY(0) scale(1)}
+}
+.sign-btn:hover{animation:pulse 900ms infinite}
+</style>
+</head>
+<body>
+  <div class="canvas-wrap" aria-hidden="true">
+    <canvas id="bg"></canvas>
+  </div>
+  <div class="container">
+    <div class="header">
+      <div class="logo">✊</div>
+      <div class="title">
+        <h1>Справедливость для Ерсултана</h1>
+        <div class="lead">Требуем проверки и отзыва лицензии компании — цель: <strong>100 000</strong> подписей</div>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="card">
+        <div class="banner-svg">
+          <object data="images/banner.svg" type="image/svg+xml" style="width:100%;height:100%;"></object>
+        </div>
+        <div class="section-title">О требованиях</div>
+        <div id="petitionText" class="small" style="line-height:1.6">Мы требуем всесторонней проверки действий компании «Казполимерстрой» и рассмотрения вопроса о приостановлении и отзыве лицензии в связи с установленными нарушениями, повлёкшими гибель несовершеннолетнего работника. При подтверждении нарушений просим применить все предусмотренные законом меры.</div>
+
+        <div style="margin-top:12px">
+          <div class="section-title">Ключевые аргументы</div>
+          <ul id="reasonsList" class="small">
+            <li>Привлечение несовершеннолетних (16–17 лет) к опасным работам без оформления и обучения.</li>
+            <li>Системные нарушения охраны труда, приведшие к гибели.</li>
+            <li>Свидетельства о возможном нарушении обязанностей руководством.</li>
+            <li>Отсутствие превентивных мер и контроля.</li>
+          </ul>
+        </div>
+
+        <div class="share">
+          <button onclick="shareTelegram()">Поделиться в Telegram</button>
+          <button onclick="shareVK()">Поделиться в VK</button>
+          <button onclick="shareWhats()">Поделиться в WhatsApp</button>
+        </div>
+
+      </div>
+
+      <aside class="card" aria-label="форма подписания">
+        <div class="section-title">Подпишите петицию</div>
+        <div class="small">Пожалуйста, укажите Ф.И.О., город и номер телефона в формате <strong>+7 777 777 77 77</strong></div>
+        <form id="signForm" onsubmit="return false" style="margin-top:12px">
+          <div class="form-row">
+            <input type="text" id="fio" placeholder="Ф.И.О." required autocomplete="name" />
+            <input type="text" id="city" placeholder="Город" required autocomplete="address-level2" />
+            <input type="text" id="phone" class="phone" placeholder="+7 777 777 77 77" required autocomplete="tel" />
+          </div>
+          <div style="margin-top:12px">
+            <button class="sign-btn" id="signBtn" type="button"><span id="btnText">Подписать петицию</span> <span class="count-badge" id="countBadge">0</span></button>
+          </div>
+          <div class="meta">
+            <div class="small" id="status"></div>
+            <div class="small">Локальные подписи: <strong id="localCount">0</strong></div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn" type="button" id="exportBtn">Экспорт CSV</button>
+            <button class="btn" type="button" id="clearBtn">Очистить</button>
+          </div>
+        </form>
+      </aside>
+    </div>
+
+    <div class="footer">Юридическая оговорка: тексты — шаблоны. Перед подачей рекомендуем согласование с юристом.</div>
+  </div>
+
+<script>
+// animated background
+(function(){ const canvas = document.getElementById('bg'); const ctx = canvas.getContext('2d'); let W, H; function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize();
+const strips = []; const N = 18; function rand(a,b){ return Math.random()*(b-a)+a; }
+for(let i=0;i<N;i++){ strips.push({x: rand(-W, W), y: rand(-H,H), w: rand(120,360), h: rand(20,60), speed: rand(0.2,0.9), col: `rgba(255,${Math.floor(rand(80,180))},${Math.floor(rand(60,140))},0.12)`}); }
+let last=performance.now(); function loop(now){ const dt = Math.min(60, now-last)/16.666; last=now; ctx.clearRect(0,0,W,H); for(const s of strips){ s.x += s.speed * dt * 40; s.y += Math.sin((s.x+now*0.0002)/200)*0.6; ctx.fillStyle = s.col; ctx.beginPath(); roundRect(ctx, (s.x% (W+500))-250, s.y%H, s.w, s.h, 20); ctx.fill(); if(s.x > W+400) s.x = -500; } requestAnimationFrame(loop); } function roundRect(ctx,x,y,w,h,r){ if(w<2*r) r=w/2; if(h<2*r) r=h/2; ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); } requestAnimationFrame(loop); })();
+
+const STORAGE_KEY = 'activist_signs_v1';
+const fioInput = document.getElementById('fio');
+const cityInput = document.getElementById('city');
+const phoneInput = document.getElementById('phone');
+
+// phone mask
+phoneInput.addEventListener('input', function(e){ let v = e.target.value.replace(/[^0-9+]/g,''); if(v.startsWith('7') && !v.startsWith('+')) v = '+'+v; if(!v.startsWith('+7')){ if(v==='+'){} else if(v==='' ){} else if(!v.startsWith('+')) v = '+7'+v.replace(/[^0-9]/g,''); } v = v.replace(/\++/g,'+'); if(v.startsWith('+')){ const rest = v.slice(1).replace(/\D/g,''); v = '+'+rest; } const digits = v.replace(/\D/g,''); let out=''; if(digits.length>0) out='+'+digits[0]; if(digits.length>1) out += ' '+digits.slice(1,4); if(digits.length>4) out += ' '+digits.slice(4,7); if(digits.length>7) out += ' '+digits.slice(7,9); if(digits.length>9) out += ' '+digits.slice(9,11); e.target.value = out; });
+
+function validPhone(v){ const digits = v.replace(/\D/g,''); return digits.length===11 && digits.startsWith('7'); }
+
+function fingerprint(){ try{ const n=navigator; const s=[n.userAgent||'', n.platform||'', screen.width, screen.height, Intl.DateTimeFormat().resolvedOptions().timeZone||''].join('||'); return btoa(s); }catch(e){ return 'guest-'+Math.random().toString(36).slice(2,9); } }
+
+function loadCount(){ const arr = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); document.getElementById('localCount').textContent = arr.length; document.getElementById('countBadge').textContent = arr.length; }
+loadCount();
+
+function handleSign(){ const fio = fioInput.value.trim(); const city = cityInput.value.trim(); const phone = phoneInput.value.trim(); const status = document.getElementById('status'); if(!fio||!city||!phone){ status.textContent = 'Заполните все поля'; return; } if(!validPhone(phone)){ status.textContent = 'Неверный формат номера. Ожидается +7 777 777 77 77'; return; } const arr = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); const fp = fingerprint(); if(arr.some(s=>s.phone.replace(/\D/g,'')===phone.replace(/\D/g,''))){ status.textContent = 'Этот номер уже подписал(а)'; return; } if(arr.some(s=>s.fp===fp)){ status.textContent = 'С этого устройства уже была отправлена подпись'; return; } const entry = {fio,city,phone,ts:new Date().toISOString(),fp}; arr.push(entry); localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); status.textContent = 'Спасибо — ваша подпись учтена локально.'; fioInput.value=''; cityInput.value=''; phoneInput.value=''; loadCount(); const badge = document.getElementById('countBadge'); badge.style.transform='scale(1.14)'; setTimeout(()=>badge.style.transform='scale(1)',300); }
+
+function exportCSV(){ const arr = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); if(arr.length===0){ alert('Подписок нет'); return; } let csv = 'fio,city,phone,ts\n'; arr.forEach(r=>{ csv += '"'+(r.fio||'').replace(/"/g,'""')+'","'+(r.city||'').replace(/"/g,'""')+'","'+(r.phone||'').replace(/"/g,'""')+'","'+r.ts+'"\n'; }); const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'signatures.csv'; document.body.appendChild(a); a.click(); a.remove(); }
+
+function clearLocal(){ if(confirm('Удалить все локальные подписи?')){ localStorage.removeItem(STORAGE_KEY); loadCount(); document.getElementById('status').textContent=''; } }
+
+document.getElementById('signBtn').addEventListener('click', handleSign);
+document.getElementById('exportBtn').addEventListener('click', exportCSV);
+document.getElementById('clearBtn').addEventListener('click', clearLocal);
+
+function shareTelegram(){ const text = encodeURIComponent('Подпишите петицию: ' + document.getElementById('petitionText').innerText.slice(0,200)); const url = encodeURIComponent(location.href); window.open('https://t.me/share/url?url='+url+'&text='+text,'_blank'); }
+function shareVK(){ const url = encodeURIComponent(location.href); const title = encodeURIComponent(document.getElementById('petitionText').innerText.slice(0,200)); window.open('https://vk.com/share.php?url='+url+'&title='+title,'_blank'); }
+function shareWhats(){ const text = encodeURIComponent(document.getElementById('petitionText').innerText.slice(0,200) + ' ' + location.href); window.open('https://api.whatsapp.com/send?text='+text,'_blank'); }
+
+</script>
+</body>
+</html>
